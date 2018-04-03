@@ -389,10 +389,10 @@ jQuery(function ($) {
 		var self = this;
 
 		this.$el = element instanceof jQuery ? element : $(element);
-		
+
 		// Find button for this step
 		this.$elButton = $(".step-button-wrapper[data-for='" + this.$el.prop('id') + "']");
-		
+
 		// Has the step been viewed by the user?
 		this.viewed = false;
 
@@ -436,10 +436,10 @@ jQuery(function ($) {
 
 		return this;
 	}
-	
+
 	/**
 	 * Determine if this step is conditionally disabled
-	 * 
+	 *
 	 * @returns {Boolean}
 	 */
 	FormStep.prototype.conditionallyHidden = function(){
@@ -502,7 +502,7 @@ jQuery(function ($) {
 				buttonOffset = -1 * ($button.innerWidth() / 2);
 
 			$button.css({left: leftPercent, marginLeft: buttonOffset});
-			
+
 			// First and last buttons are kept within userform-progress container
 			if (index === self.$jsAlign.length - 1) {
 				$button.css({marginLeft: buttonOffset * 2});
@@ -592,10 +592,12 @@ jQuery(function ($) {
 		this.$prevButton.on('click', function (e) {
 			e.preventDefault();
 			self.$el.trigger('userform.action.prev');
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
 		});
 		this.$nextButton.on('click', function (e) {
 			e.preventDefault();
 			self.$el.trigger('userform.action.next');
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
 		});
 
 		// Listen for changes to the current form step, or conditional pages,
@@ -621,11 +623,11 @@ jQuery(function ($) {
 
 		// Update the "Prev" button.
 		this.$el.find('.step-button-prev')[stepID === 0 ? 'hide' : 'show']();
-		
+
 		// Find last step, skipping hidden ones
 		for(i = numberOfSteps - 1; i >= 0; i--) {
 			lastStep = userform.steps[i];
-			
+
 			// Skip if step is hidden
 			if(lastStep.conditionallyHidden()) {
 				continue;
@@ -636,7 +638,7 @@ jQuery(function ($) {
 
 			// Update the "Actions".
 			this.$el.find('.Actions')[stepID >= i ? 'show' : 'hide']();
-			
+
 			// Stop processing last step
 			break;
 		}
@@ -705,7 +707,7 @@ jQuery(function ($) {
 		});
 
 		userform.setCurrentStep(userform.steps[0]);
-		
+
 		// Initialise actions and progressbar
 		progressBar = new ProgressBar($('#userform-progress'));
 		formActions = new FormActions($('#step-navigation'));
